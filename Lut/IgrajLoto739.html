@@ -1,0 +1,192 @@
+﻿
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>RNG Lutrija</title>
+
+<script>
+	var izabranoBrojeva=0;
+	var brojevi = [];
+	var dobitniBrojevi = [];
+	var blokiraniGumbi = [];
+	var zgoditak = 0;
+	
+	function izaberiBroj(num){
+		
+		
+		if(izabranoBrojeva < 7){
+			izabranoBrojeva++;
+			document.getElementById("biraniBrojevi").innerHTML += " "+num;
+			brojevi[izabranoBrojeva-1] = num;
+			var btn = document.getElementById(num);
+			brojevi[izabranoBrojeva-1] = num;
+			blokiraniGumbi[izabranoBrojeva-1] = btn;
+			btn.setAttribute("disabled", "true");
+			
+		}
+		else{
+		
+			alert("Već je izabrano 7 brojeva!");
+		}
+		
+	}
+	
+	function resetiraj(){
+	
+		document.getElementById("biraniBrojevi").innerHTML = "";
+		document.getElementById("dobitni").innerHTML = "";
+		document.getElementById("dobitniBrojevi").innerHTML = "";
+		document.getElementById("pogođeni").innerHTML = "";
+		document.getElementById("pogođeniBrojevi").innerHTML = "";
+		document.getElementById("zgod").innerHTML = "";
+		document.getElementById("zgoditak").innerHTML = "";
+		for(var i = 0; i < 7; i++){
+			blokiraniGumbi[i].removeAttribute("disabled");
+		}
+		izabranoBrojeva = 0;
+		brojevi = [];
+		dobitniBrojevi = [];
+		zgoditak = 0;
+		
+	}
+	
+	function play(){
+		if (dobitniBrojevi === undefined || dobitniBrojevi.length == 0){
+			if(izabranoBrojeva == 7){
+				document.getElementById("dobitni").innerHTML="Dobitni brojevi:";
+				for(var i = 0; i < 7; i++){
+				
+					var x = Math.floor((Math.random() * 39) + 1);
+					for(var j = 0; j < dobitniBrojevi.length; j++){
+						if(x == j)
+							var x = Math.floor((Math.random() * 39) + 1);
+					}
+					dobitniBrojevi[i] = x;
+				
+					document.getElementById("dobitniBrojevi").innerHTML += x + " ";
+				}
+			
+				document.getElementById("pogođeniBrojevi").innerHTML = "Pogođeni brojevi:";
+			
+				for(var i = 0; i < 7; i++){
+				
+					for(var j = 0; j < 7; j++){
+					
+						if(brojevi[i] == dobitniBrojevi[j]){
+							document.getElementById("pogođeni").innerHTML += " " + brojevi[i];
+							zgoditak++;
+						}
+					}
+				}
+				
+				document.getElementById("zgod").innerHTML = "Zgoditak:";
+				document.getElementById("zgoditak").innerHTML = zgoditak+"/7";				
+			
+			}
+			else{
+			
+				alert("Niste izabrali 7 brojeva!");
+			}
+		}
+		else{
+			
+			alert("Resetiraj prvo!");
+		}
+	}
+
+</script>
+
+</head>
+
+<body>
+<div id="container">
+		<div id="header">
+        	<h1>RNG<span class="off">Lutrija</span></h1>
+            <h2>"Zagrabi sreću i ponesi novaca vreću"</h2>
+        </div>   
+        
+        <div id="menu">
+			<ul>
+				<li class="menuitem"><a href="index.html">Glavna stranica</a></li>
+				<li class="menuitem"><a href="O_nama.html">O nama</a></li>
+				<li class="menuitem"><a href="Poslovnice.html">Poslovnice</a></li>
+				<li class="menuitem"><a href="Usluge.html">Usluge</a></li>
+				<li class="menuitem"><a href="kontakt.html">Kontakt</a></li>
+			</ul>
+        </div>
+        
+        <div id="leftmenu">
+
+        <div id="leftmenu_top"></div>
+
+				<div id="leftmenu_main">    
+                
+                <h3>Prečaci</h3>
+                        
+                <ul>
+                    <li><a href="Bingo.html">Bingo</a></li>
+                    <li><a href="Loto739.html">Loto 7/39, Super 7 i Joker</a></li>
+                    <li><a href="Loto645.html">Loto 6/45 i Joker</a></li>
+                </ul>
+</div>
+                
+                
+              <div id="leftmenu_bottom"></div>
+        </div>
+        
+        
+        
+        
+		<div id="content">
+        
+        
+        <div id="content_top"></div>
+        <div id="content_main">
+        	
+			<h1 style="text-align:center;"> Loto 7/39 </h1>
+			<br/>
+			<script>
+	
+				for(var i = 1; i <= 39; i++){
+					var btn = document.createElement("BUTTON");
+					btn.setAttribute("class", "num");
+					btn.setAttribute("id", ""+i)
+					btn.setAttribute("onclick", "izaberiBroj(this.id)")
+					var t = document.createTextNode(""+i);
+					btn.appendChild(t);
+					document.getElementById("content_main").appendChild(btn);
+					document.getElementById("content_main").innerHTML += "\t";
+					if(i==13 || i==26){
+						document.getElementById("content_main").innerHTML += "<br/><br/>";
+					}
+				}
+		
+
+			</script>
+			<br/>
+			<br/>
+			<button id="reset" onclick="resetiraj()">reset</button>
+			<br/>
+			<h1>Izabrani brojevi:</h1>
+			<h2 style="text-align:center;font-Weight:bold;" id="biraniBrojevi"></h2>
+			<br/>
+			<button id="play" onclick="play()">Zaigraj Loto</button>
+			<br/>
+			<h1 id="dobitni"></h1>
+			<h2 style="text-align:center;font-Weight:bold;" id="dobitniBrojevi"></h2>
+			<br/>
+			<h1 id="pogođeniBrojevi"></h1>
+			<h2 style="text-align:center;font-Weight:bold;" id="pogođeni"></h2>
+			<h1 id="zgod"></h1>
+			<h2 style="text-align:center;font-Weight:bold;" id="zgoditak"></h2>
+        </div>
+        <div id="content_bottom"></div>
+            
+        <footer>
+            <p>Copyright &copy; 2020 Luka Horvatić. <a href="https://github.com/"><img src="images/git.png" title="Github" alt="Github"></a></p>
+        </footer>
+      </div>
+   </div>
+</body>
+</html>
